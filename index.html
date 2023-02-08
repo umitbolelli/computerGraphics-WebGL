@@ -1,0 +1,72 @@
+<html>
+<body style="background-color:#48C9B0;	display:grid;  grid-auto-flow:column;" >
+    <canvas id="glcanvas" width="512" height="512"></canvas>
+	<div style="display:grid;"	>
+    <h1 style="font-size: 40px;">Settings</h1>
+    <p style="font-size: 20px;">To make the translation:  W, A, S, D <br>
+	  For scaling:  +, - 	
+	</p>
+		<div style="color:red; font-size: 20px;"> 
+		Red  : 0.0<input id="slideR" type="range"
+		min="0" max="1" step="0.0001" value="0" /> 1.0 
+	</div>	
+	   	<div style="color:green; font-size: 20px;" >
+		Green : 0.0<input id="slideG" type="range"
+		min="0" max="1" step="0.0001" value="0" /> 1.0 
+	</div>	
+	   	<div style="color:blue; font-size: 20px;">
+		Blue : 0.0<input id="slideB" type="range"
+		min="0" max="1" step="0.0001" value="0" /> 1.0
+	</div>	
+		<div style="color:#34495E; font-size: 20px;" >
+		Opacity: 0.0<input id="slideO" type="range"
+		min="0" max="1" step="0.1" value="1" /> 1.0 
+	</div>
+
+	<div>
+	<select id="mymenu" style="color:white;background:gray; ; font-size: 15px;"	size="3">
+		<option value="0"> Change Rotation Direction </option>
+		<option value="1"> Spin Faster </option>
+		<option value="2"> Spin Slower </option>			
+	</select>
+	
+	<button id = "ControlButton"	style="color:white;background:gray; "> 
+		Start / Stop
+	</button>	
+	</div>   
+</div>
+
+<script id="vertex-shader" type="x-shader/x-vertex">
+	attribute vec4 vPosition;
+	uniform float theta;
+	uniform float scaling;
+	uniform vec4 translation;
+	
+	void main(){	
+		gl_Position.x = (scaling) * (cos(theta) * vPosition.x - sin(theta) * vPosition.y) + translation.x;
+		gl_Position.y = (scaling) * (sin(theta) * vPosition.x + cos(theta) * vPosition.y) + translation.y;
+		gl_Position.z = 0.0;
+		gl_Position.w = 1.0;
+    }
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment"> 
+    precision mediump float;
+	uniform float Red;
+	uniform float Green;
+	uniform float Blue;
+	uniform float Opaklik;	
+	
+    void main() {
+	
+		gl_FragColor = vec4( Red, Green, Blue, Opaklik );
+	  
+    }
+</script>
+
+<script src="./common/MV.js"></script>
+<script src="./common/initShaders.js"></script>
+<script src="./common/webgl-utils.js"></script>
+<script src="index.js"></script>
+</body>
+</html>
